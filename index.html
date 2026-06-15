@@ -48,11 +48,11 @@
         html { scroll-behavior: smooth; }
     </style>
 </head>
-<body class="bg-champagne text-navy font-sans antialiased">
+<body class="bg-champagne text-navy font-sans antialiased overflow-x-hidden">
 
     <nav class="bg-navy/95 border-b border-gold/20 text-white sticky top-0 z-50 backdrop-blur-md">
         <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-            <a href="index.html" class="flex items-center space-x-2">
+            <a href="index.html" class="flex items-center space-x-2 z-10">
                 <img src="logo.png" alt="Homage Essentials Logo" class="h-10 w-auto">
             </a>
             
@@ -65,7 +65,7 @@
                 <a href="#contact" class="nav-link">Contact</a>
             </div>
 
-            <a href="category.html" class="relative p-2 bg-gold/10 hover:bg-gold/20 text-gold rounded-full transition-all">
+            <a href="category.html" class="relative p-2 bg-gold/10 hover:bg-gold/20 text-gold rounded-full transition-all z-10">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
                 </svg>
@@ -73,7 +73,7 @@
             </a>
         </div>
         
-        <div class="flex md:hidden bg-navy border-t border-gold/10 justify-around py-2.5 text-[10px] uppercase tracking-wider font-semibold text-stoneGrey">
+        <div class="flex md:hidden bg-navy border-t border-gold/10 justify-around py-2.5 text-[10px] uppercase tracking-wider font-semibold text-stoneGrey relative z-10">
             <a href="index.html" class="text-white">Home</a>
             <a href="catalogue.html">Catalogue</a>
             <a href="#about">About</a>
@@ -83,10 +83,9 @@
         </div>
     </nav>
 
-    <header class="backdrop-premium min-h-[75vh] flex items-center justify-center text-center px-4 relative">
-        <div class="max-w-3xl mx-auto py-16">
-            <!-- Title Card -->
-            <div class="flex flex-col items-center mb-10">
+    <header class="backdrop-premium min-h-[75vh] flex items-center justify-center text-center px-4 relative z-0">
+        <div class="max-w-3xl mx-auto py-12 md:py-16">
+            <div class="flex flex-col items-center mb-8">
                 <img src="logo.png" alt="Homage Essentials Emblem" class="h-24 md:h-32 w-auto mb-5 drop-shadow-2xl">
                 <div class="flex items-center gap-4 mb-2">
                     <div class="w-12 h-[1px] bg-gold/60"></div>
@@ -101,18 +100,18 @@
                 </h1>
                 <div class="w-20 h-[1px] bg-gold/40 mt-4"></div>
             </div>
-            <span class="inline-block text-champagne/70 text-xs font-medium tracking-[0.25em] uppercase mb-6">Dealers in Professional & Household Cleaning Solutions</span>
+            <span class="inline-block text-champagne/70 text-xs font-medium tracking-[0.25em] uppercase mb-6 max-w-sm sm:max-w-none">Dealers in Professional & Household Cleaning Solutions</span>
             <h2 class="text-white text-xl md:text-2xl font-serif font-light tracking-wide leading-tight mb-6">
                 Clean living <span class="italic text-gold">starts here</span>
             </h2>
-            <p class="text-champagne/80 font-light text-sm md:text-base max-w-xl mx-auto leading-relaxed mb-8">
+            <p class="text-champagne/80 font-light text-sm md:text-base max-w-xl mx-auto leading-relaxed mb-8 px-2">
                 Formulated to deliver powerful, reliable result-oriented cleanliness while gracefully championing eco-friendly luxury alternatives.
             </p>
-            <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
-                <a href="catalogue.html" class="w-full sm:w-auto bg-gold hover:bg-gold/90 text-navy font-bold text-xs uppercase tracking-widest px-8 py-4 rounded-lg shadow-lg transition-all transform active:scale-95">
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-4 px-4 w-full max-w-md mx-auto sm:max-w-none">
+                <a href="catalogue.html" class="w-full sm:w-auto text-center bg-gold hover:bg-gold/90 text-navy font-bold text-xs uppercase tracking-widest px-8 py-4 rounded-lg shadow-lg transition-all transform active:scale-95">
                     Explore Master Collection
                 </a>
-                <a href="#about" class="w-full sm:w-auto border border-white/30 hover:border-white text-white font-medium text-xs uppercase tracking-widest px-8 py-4 rounded-lg backdrop-blur-xs transition-all">
+                <a href="#about" class="w-full sm:w-auto text-center border border-white/30 hover:border-white text-white font-medium text-xs uppercase tracking-widest px-8 py-4 rounded-lg backdrop-blur-xs transition-all">
                     Our Story
                 </a>
             </div>
@@ -122,33 +121,38 @@
         </div>
     </header>
 
-    <section id="about" class="max-w-5xl mx-auto px-4 py-20">
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
+    <section id="about" class="max-w-5xl mx-auto px-4 py-16 md:py-24 relative z-10">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-start">
             
-            <div class="md:col-span-4 sticky top-24">
+            <div class="md:col-span-4 md:sticky md:top-24 mb-6 md:mb-0">
                 <span class="text-gold text-xs font-bold uppercase tracking-widest block mb-2">Who We Are</span>
-                <h2 class="text-3xl font-serif font-bold text-navy tracking-tight mb-4">Crafting environments of flawless hygiene.</h2>
-                <div class="w-12 h-[2px] bg-gold mb-6"></div>
+                <h2 class="text-2xl md:text-3xl font-serif font-bold text-navy tracking-tight mb-4">Crafting environments of flawless hygiene.</h2>
+                <div class="w-12 h-[2px] bg-gold mb-4 md:mb-6"></div>
                 <p class="text-slate-600 text-sm leading-relaxed font-light">
                     At Homage Essentials, we believe a refined, pristine environment forms the absolute baseline of wholesome living. We cater seamlessly to high-standard households, premium hospitality, and fast-paced commercial spaces.
                 </p>
             </div>
 
-            <div class="md:col-span-8 space-y-12">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div class="bg-white border border-gold/10 rounded-2xl p-6 shadow-xs">
-                        <span class="text-gold font-serif text-2xl italic block mb-2">01.</span>
-                        <h4 class="font-serif font-bold text-navy text-lg mb-1">Our Mission</h4>
-                        <p class="text-slate-500 text-xs leading-relaxed">To provide effective, high-quality cleaning products and services that seamlessly promote hygiene, convenience, and sustainable modern living.</p>
+            <div class="md:col-span-8 flex flex-col space-y-8 relative">
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 relative">
+                    <div class="bg-white border border-gold/10 rounded-2xl p-6 shadow-xs flex flex-col justify-between">
+                        <div>
+                            <span class="text-gold font-serif text-2xl italic block mb-2">01.</span>
+                            <h4 class="font-serif font-bold text-navy text-lg mb-2">Our Mission</h4>
+                            <p class="text-slate-500 text-xs leading-relaxed font-light">To provide effective, high-quality cleaning products and services that seamlessly promote hygiene, convenience, and sustainable modern living.</p>
+                        </div>
                     </div>
-                    <div class="bg-white border border-gold/10 rounded-2xl p-6 shadow-xs">
-                        <span class="text-gold font-serif text-2xl italic block mb-2">02.</span>
-                        <h4 class="font-serif font-bold text-navy text-lg mb-1">Our Vision</h4>
-                        <p class="text-slate-500 text-xs leading-relaxed">To grow steadily into a universally trusted full-service luxury ecosystem across laundry, detailed dry cleaning, carpet restoration, and specialty management.</p>
+                    <div class="bg-white border border-gold/10 rounded-2xl p-6 shadow-xs flex flex-col justify-between">
+                        <div>
+                            <span class="text-gold font-serif text-2xl italic block mb-2">02.</span>
+                            <h4 class="font-serif font-bold text-navy text-lg mb-2">Our Vision</h4>
+                            <p class="text-slate-500 text-xs leading-relaxed font-light">To grow steadily into a universally trusted full-service luxury ecosystem across laundry, detailed dry cleaning, carpet restoration, and specialty management.</p>
+                        </div>
                     </div>
                 </div>
 
-                <div class="bg-navy text-white rounded-2xl p-6 md:p-8 relative overflow-hidden border border-gold/30 shadow-xl">
+                <div class="bg-navy text-white rounded-2xl p-6 md:p-8 relative overflow-hidden border border-gold/30 shadow-xl block">
                     <div class="relative z-10">
                         <span class="bg-gold text-navy text-[9px] uppercase font-bold tracking-widest px-2.5 py-1 rounded-md mb-4 inline-block">Eco-Conscious Initiative</span>
                         <h3 class="text-xl md:text-2xl font-serif text-gold mb-2">Refill • Reuse • Reduce</h3>
@@ -161,8 +165,8 @@
                             <svg id="sust-arrow" class="w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </button>
 
-                        <div id="sustainability-details" class="max-h-0 opacity-0 overflow-hidden transition-all duration-500 ease-in-out mt-6 pt-6 border-t border-white/10 space-y-4 text-xs text-champagne/80 font-light leading-relaxed">
-                            <p><strong>1. Zero Single-Use Plastic Mandate:</strong> Every ounce refilled is an structural victory against the current reliance on high-density disposable plastics across East Africa.</p>
+                        <div id="sustainability-details" class="max-h-0 opacity-0 overflow-hidden transition-all duration-500 ease-in-out mt-0 pt-0 space-y-4 text-xs text-champagne/80 font-light leading-relaxed">
+                            <p class="pt-6 border-t border-white/10"><strong>1. Zero Single-Use Plastic Mandate:</strong> Every ounce refilled is an structural victory against the current reliance on high-density disposable plastics across East Africa.</p>
                             <p><strong>2. Economical Lower Cost per Refill:</strong> By eliminating primary manufacturing packaging costs, we give that margin back directly to you. Pay strictly for the active solution weight and volume you configure.</p>
                             <p><strong>3. Transparent Three-Step Refill Cycle:</strong> Simply bring your dry container, state your active fluid/powder type with target sizing metrics, and allow our technical attendants to securely complete your tracking manifest.</p>
                         </div>
@@ -173,30 +177,30 @@
         </div>
     </section>
 
-    <section id="contact" class="bg-white border-t border-gold/10 py-20">
+    <section id="contact" class="bg-white border-t border-gold/10 py-16 md:py-20 relative z-10">
         <div class="max-w-4xl mx-auto px-4 text-center">
             <span class="text-gold text-xs font-bold uppercase tracking-widest block mb-2">Get In Touch</span>
-            <h2 class="text-3xl font-serif font-bold text-navy mb-4">Let's coordinate pristine sanitation solutions.</h2>
-            <p class="text-slate-500 font-light text-xs max-w-md mx-auto mb-10 leading-relaxed"> Have inquiries regarding wholesale dynamic supply, volume accounts, or customized retail delivery programs?</p>
+            <h2 class="text-2xl md:text-3xl font-serif font-bold text-navy mb-4">Let's coordinate pristine sanitation solutions.</h2>
+            <p class="text-slate-500 font-light text-xs max-w-md mx-auto mb-10 leading-relaxed px-2">Have inquiries regarding wholesale dynamic supply, volume accounts, or customized retail delivery programs?</p>
             
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 text-left max-w-3xl mx-auto">
-                <div class="border border-slate-100 p-5 rounded-xl hover:border-gold/30 transition-all">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-left max-w-3xl mx-auto">
+                <div class="border border-slate-100 p-5 rounded-xl hover:border-gold/30 transition-all bg-champagne/10">
                     <p class="text-[10px] uppercase tracking-wider text-stoneGrey font-bold mb-1">Direct Call Support</p>
                     <a href="tel:+254746775951" class="text-sm font-bold text-navy hover:text-gold transition-colors">+254 746 775 951</a>
                 </div>
-                <div class="border border-slate-100 p-5 rounded-xl hover:border-gold/30 transition-all">
+                <div class="border border-slate-100 p-5 rounded-xl hover:border-gold/30 transition-all bg-champagne/10">
                     <p class="text-[10px] uppercase tracking-wider text-stoneGrey font-bold mb-1">Corporate Mailing</p>
                     <a href="mailto:homageessentials6@gmail.com" class="text-sm font-bold text-navy hover:text-gold transition-colors break-all">homageessentials6@gmail.com</a>
                 </div>
-                <div class="border border-slate-100 p-5 rounded-xl hover:border-gold/30 transition-all">
+                <div class="border border-slate-100 p-5 rounded-xl hover:border-gold/30 transition-all bg-champagne/10">
                     <p class="text-[10px] uppercase tracking-wider text-stoneGrey font-bold mb-1">Digital Presence</p>
-                    <p class="text-sm font-medium text-navy">Nairobi, Kenya</p>
+                    <p class="text-sm font-bold text-navy">Nairobi, Kenya</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer class="bg-navy py-8 text-center text-stoneGrey/60 text-xs border-t border-gold/10">
+    <footer class="bg-navy py-8 text-center text-stoneGrey/60 text-xs border-t border-gold/10 relative z-10">
         <p>© 2026 Homage Essentials. Curated Elegance in Clean Living.</p>
     </footer>
 
@@ -206,18 +210,20 @@
             const txt = document.getElementById('sust-btn-text');
             const arrow = document.getElementById('sust-arrow');
             if (block.style.maxHeight === '0px' || !block.style.maxHeight) {
-                block.style.maxHeight = '500px';
+                block.style.maxHeight = '1000px'; 
                 block.style.opacity = '1';
+                block.style.marginTop = '1.5rem';
                 txt.innerText = 'Collapse Blueprint Summary';
                 arrow.style.transform = 'rotate(180deg)';
             } else {
                 block.style.maxHeight = '0px';
                 block.style.opacity = '0';
+                block.style.marginTop = '0px';
                 txt.innerText = 'Learn About Our Sustainability Blueprint';
                 arrow.style.transform = 'rotate(0deg)';
             }
         }
-        // Count update script checking local storage sync
+        
         function updateCounter() {
             let items = JSON.parse(localStorage.getItem('homage_cart') || '[]');
             let count = items.reduce((acc, obj) => acc + obj.qty, 0);
