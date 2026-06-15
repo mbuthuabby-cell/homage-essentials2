@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homage Essentials — Catalogue Overview</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { navy: '#0B1325', gold: '#C5A059', champagne: '#F5F3ED', stoneGrey: '#9EA1A6' },
+                    fontFamily: { serif: ['Playfair Display', 'serif'], sans: ['Plus Jakarta Sans', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+</head>
+<body class="bg-champagne text-navy font-sans antialiased">
+
+    <nav class="bg-navy/95 border-b border-gold/20 text-white sticky top-0 z-50 backdrop-blur-md">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+            <a href="index.html" class="flex items-center space-x-2">
+                <img src="logo.png" alt="Homage Essentials Logo" class="h-10 w-auto ">
+            </a>
+            <div class="hidden md:flex items-center space-x-8 text-xs uppercase tracking-widest font-medium text-stoneGrey">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="catalogue.html" class="nav-link text-white">Catalogue</a>
+                <a href="index.html#about" class="nav-link">About Us</a>
+                <a href="services.html" class="nav-link">Services</a>
+                <a href="blog.html" class="nav-link">Blog</a>
+                <a href="index.html#contact" class="nav-link">Contact</a>
+            </div>
+            <a href="category.html" class="relative p-2 bg-gold/10 text-gold rounded-full transition-all">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                <div id="cart-counter-global" class="absolute -top-1 -right-1 bg-gold text-navy font-bold text-[10px] w-4 h-4 rounded-full flex items-center justify-center hidden">0</div>
+            </a>
+        </div>
+        <div class="flex md:hidden bg-navy border-t border-gold/10 justify-around py-2.5 text-[10px] uppercase tracking-wider font-semibold text-stoneGrey">
+            <a href="index.html">Home</a>
+            <a href="catalogue.html" class="text-white">Catalogue</a>
+            <a href="index.html#about">About</a>
+            <a href="services.html">Services</a>
+            <a href="blog.html">Blog</a>
+            <a href="index.html#contact">Contact</a>
+        </div>
+    </nav>
+
+    <main class="max-w-md mx-auto px-4 py-12">
+        <div class="text-center mb-10">
+            <span class="text-gold text-xs font-bold uppercase tracking-[0.2em]">The Collections</span>
+            <h2 class="text-3xl font-serif font-bold text-navy tracking-tight mt-1">Catalogue Overview</h2>
+            <div class="w-8 h-[1px] bg-gold mx-auto mt-3"></div>
+        </div>
+
+        <div class="space-y-4">
+            <a href="category.html?type=laundry" class="group bg-white rounded-2xl border border-gold/10 p-5 flex items-center justify-between shadow-xs transition-all duration-300 hover:border-gold hover:-translate-y-0.5 active:translate-y-0">
+                <div class="flex items-center space-x-4">
+                    <div class="w-2 h-12 bg-gold rounded-full transition-transform group-hover:scale-y-110"></div>
+                    <div>
+                        <h3 class="font-serif font-bold text-navy text-lg group-hover:text-gold transition-colors">Laundry Care</h3>
+                        <p class="text-slate-400 text-xs mt-0.5">Detergents, bleach boosters, and fabric care</p>
+                    </div>
+                </div>
+                <svg class="w-5 h-5 text-stoneGrey group-hover:text-gold transform transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </a>
+
+            <a href="category.html?type=personal" class="group bg-white rounded-2xl border border-gold/10 p-5 flex items-center justify-between shadow-xs transition-all duration-300 hover:border-gold hover:-translate-y-0.5 active:translate-y-0">
+                <div class="flex items-center space-x-4">
+                    <div class="w-2 h-12 bg-navy rounded-full transition-transform group-hover:scale-y-110"></div>
+                    <div>
+                        <h3 class="font-serif font-bold text-navy text-lg group-hover:text-gold transition-colors">Personal Care</h3>
+                        <p class="text-slate-400 text-xs mt-0.5">Premium handwash and nourishing shower gels</p>
+                    </div>
+                </div>
+                <svg class="w-5 h-5 text-stoneGrey group-hover:text-gold transform transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </a>
+
+            <a href="category.html?type=surface" class="group bg-white rounded-2xl border border-gold/10 p-5 flex items-center justify-between shadow-xs transition-all duration-300 hover:border-gold hover:-translate-y-0.5 active:translate-y-0">
+                <div class="flex items-center space-x-4">
+                    <div class="w-2 h-12 bg-stoneGrey rounded-full transition-transform group-hover:scale-y-110"></div>
+                    <div>
+                        <h3 class="font-serif font-bold text-navy text-lg group-hover:text-gold transition-colors">Surface Care</h3>
+                        <p class="text-slate-400 text-xs mt-0.5">Disinfectants and everyday deep home cleansing</p>
+                    </div>
+                </div>
+                <svg class="w-5 h-5 text-stoneGrey group-hover:text-gold transform transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </a>
+
+            <a href="category.html?type=specialty" class="group bg-white rounded-2xl border border-gold/10 p-5 flex items-center justify-between shadow-xs transition-all duration-300 hover:border-gold hover:-translate-y-0.5 active:translate-y-0">
+                <div class="flex items-center space-x-4">
+                    <div class="w-2 h-12 bg-[#8C7654] rounded-full transition-transform group-hover:scale-y-110"></div>
+                    <div>
+                        <h3 class="font-serif font-bold text-navy text-lg group-hover:text-gold transition-colors">Specialty Care</h3>
+                        <p class="text-slate-400 text-xs mt-0.5">Targeted kitchen destainers and fabric solutions</p>
+                    </div>
+                </div>
+                <svg class="w-5 h-5 text-stoneGrey group-hover:text-gold transform transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </a>
+        </div>
+    </main>
+
+    <script>
+        function updateCounter() {
+            let count = JSON.parse(localStorage.getItem('homage_cart') || '[]').reduce((acc, obj) => acc + obj.qty, 0);
+            let indicator = document.getElementById('cart-counter-global');
+            if(count > 0) { indicator.innerText = count; indicator.classList.remove('hidden'); }
+            else { indicator.classList.add('hidden'); }
+        }
+        window.addEventListener('DOMContentLoaded', updateCounter);
+    </script>
+</body>
+</html>

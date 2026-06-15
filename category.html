@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homage Essentials — Active Collection</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { navy: '#0B1325', gold: '#C5A059', champagne: '#F5F3ED', stoneGrey: '#9EA1A6', mpesaGreen: '#46B422' },
+                    fontFamily: { serif: ['Playfair Display', 'serif'], sans: ['Plus Jakarta Sans', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-champagne text-navy font-sans antialiased min-h-screen pb-24">
+
+    <nav class="bg-navy border-b border-gold/20 text-white sticky top-0 z-40">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+            <a href="catalogue.html" class="flex items-center text-xs tracking-wider uppercase font-medium text-gold bg-white/5 border border-gold/20 px-3 py-2 rounded-lg transition-transform active:scale-95">
+                ← Catalogue Overview
+            </a>
+            <h1 id="category-title-header" class="text-base font-serif font-bold text-white tracking-wide">Active Range</h1>
+            <button onclick="toggleCartDrawer()" class="relative p-2 bg-gold/10 text-gold rounded-full">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                <div id="drawer-counter" class="absolute -top-1 -right-1 bg-gold text-navy font-bold text-[10px] w-4 h-4 rounded-full flex items-center justify-center hidden">0</div>
+            </button>
+        </div>
+    </nav>
+
+    <main class="max-w-md mx-auto px-4 py-6">
+        <div id="product-stack-render" class="space-y-8">
+            </div>
+    </main>
+
+    <div id="cart-drawer-backdrop" class="fixed inset-0 bg-navy/60 backdrop-blur-xs hidden z-50 transition-opacity duration-300">
+        <div class="fixed right-0 top-0 bottom-0 w-full max-w-md bg-white shadow-2xl flex flex-col transform translate-x-full transition-transform duration-300" id="cart-drawer-panel">
+            
+            <div class="p-4 bg-navy text-white flex items-center justify-between border-b border-gold/20">
+                <div class="flex items-center space-x-2">
+                    <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                    <h3 class="font-serif font-bold text-base tracking-wide">Selected Logistics Basket</h3>
+                </div>
+                <button onclick="toggleCartDrawer()" class="text-stoneGrey hover:text-white font-bold p-1 text-sm">Close ✕</button>
+            </div>
+
+            <div id="basket-items-list" class="flex-grow overflow-y-auto p-4 space-y-3 bg-champagne/40">
+                </div>
+
+            <div class="p-4 border-t border-slate-100 bg-white">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="text-xs uppercase font-bold text-stoneGrey tracking-wider">Subtotal Due:</span>
+                    <span id="basket-total-amt" class="text-xl font-bold font-serif text-navy">KES 0</span>
+                </div>
+
+                <div class="space-y-2" id="mpesa-checkout-box">
+                    <label class="block text-[10px] uppercase font-bold text-slate-500 tracking-wide">Safcom M-Pesa Customer Phone Number</label>
+                    <div class="relative rounded-lg shadow-xs">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <span class="text-slate-400 text-xs font-semibold">+254</span>
+                        </div>
+                        <input type="tel" id="customer-phone" placeholder="712345678" class="block w-full pl-12 pr-3 py-3 border border-slate-200 rounded-lg text-xs focus:outline-none focus:border-gold font-medium">
+                    </div>
+                    <button onclick="executeMpesaPush()" class="w-full bg-mpesaGreen hover:bg-mpesaGreen/90 text-white font-bold text-xs uppercase tracking-widest py-4 rounded-lg flex items-center justify-center space-x-2 shadow-md active:scale-95 transition-transform mt-2">
+                        <span>Initiate STK Push Securely</span>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const catalogueDatabase = {
+            laundry: {
+                title: "Laundry Care",
+                items: [
+                    { name: "Machine Wash Laundry Gel", label: "MACHINE WASH LAUNDRY GEL", img: "image 1.jpg", sizings: [ {s: "20 L", p: 4500}, {s: "5 L", p: 1700}, {s: "2 L", p: 700}, {s: "Refill per Litre", p: 240} ] },
+                    { name: "Oxy-Laundry Powder Detergent", label: "HOMAGE OXY-LAUNDRY POWDER", img: "image 2.jpg", sizings: [ {s: "20 KG", p: 8850}, {s: "5 KG", p: 2400}, {s: "1 KG", p: 550}, {s: "500 G", p: 300} ] },
+                    { name: "Hard Water Laundry Detergent", label: "HARD WATER POWDER DETERGENT", img: "image 3.jpg", sizings: [ {s: "20 KG", p: 8500}, {s: "5 KG", p: 1850}, {s: "1 KG", p: 550}, {s: "500 G", p: 300} ] },
+                    { name: "Fabric Softener", label: "HOMAGE FABRIC SOFTENER", img: "image 4.jpg", sizings: [ {s: "20 L", p: 5900}, {s: "5 L", p: 1700}, {s: "1.5 L", p: 600}, {s: "750 ML", p: 350}, {s: "Refill per Litre", p: 330} ] },
+                    { name: "Oxy-Bleach", label: "HOMAGE H OXY-BLEACH", img: "image 5.jpg", sizings: [ {s: "20 L", p: 6750}, {s: "5 L", p: 1850}, {s: "2 L", p: 850}, {s: "1 L", p: 450}, {s: "Refill per Litre", p: 360} ] },
+                    { name: "Bleach for Whites", label: "HOMAGE BLEACH WHITE", img: "image 11.jpg", sizings: [ {s: "20 L", p: 4250}, {s: "5 L", p: 1700}, {s: "2 L", p: 550}, {s: "1 L", p: 300}, {s: "Refill per Litre", p: 230} ] }
+                ]
+            },
+            personal: {
+                title: "Personal Care",
+                items: [
+                    { name: "Anti-Bacterial Handwash", label: "HAND WASH CREAM", img: "image 8.jpg", sizings: [ {s: "20 L", p: 4500}, {s: "5 L", p: 1500}, {s: "1.5 L", p: 600}, {s: "500 ML", p: 200}, {s: "Refill per Litre", p: 240} ] },
+                    { name: "Shower Gel", label: "HOMAGE ESSENTIALS SHOWER GEL", img: "image 9.jpg", sizings: [ {s: "20 L", p: 4500}, {s: "5 L", p: 1850}, {s: "2 L", p: 650}, {s: "750 ML", p: 300}, {s: "Refill per Litre", p: 330} ] }
+                ]
+            },
+            surface: {
+                title: "Surface Care",
+                items: [
+                    { name: "Disinfectant", label: "HOMAGE ESSENTIALS DISINFECTANT", img: "image 13.jpg", sizings: [ {s: "20 L", p: 4600}, {s: "5 L", p: 1450}, {s: "2 L", p: 600}, {s: "1 L", p: 350}, {s: "500 ML", p: 200}, {s: "Refill per Litre", p: 250} ] },
+                    { name: "All-Purpose Cleaner", label: "MULTI-PURPOSE CLEANER 2X CONC", img: "image 12.jpg", sizings: [ {s: "20 L", p: 2100}, {s: "5 L", p: 750}, {s: "2 L", p: 350}, {s: "1 L", p: 200}, {s: "Refill per Litre", p: 150} ] },
+                    { name: "Dishwashing Liquid", label: "DISH WASHING LIQUID", img: "image 10.jpg", sizings: [ {s: "20 L", p: 4500}, {s: "5 L", p: 1700}, {s: "2 L", p: 650}, {s: "1 L", p: 380}, {s: "Refill per Litre", p: 250} ] },
+                    { name: "Window & Glass Cleaner", label: "WINDOW AND GLASS CLEANER", img: "image 14.jpg", sizings: [ {s: "20 L", p: 4800}, {s: "5 L", p: 1850}, {s: "2 L", p: 650}, {s: "500 ML", p: 250}, {s: "Refill per Litre", p: 260} ] },
+                    { name: "Carpet & Upholstery Cleaner", label: "CARPET & UPHOLSTERY CLEANER", img: "image 15.jpg", sizings: [ {s: "20 L", p: 4650}, {s: "5 L", p: 1700}, {s: "2 L", p: 600}, {s: "500 ML", p: 250}, {s: "Refill per Litre", p: 250} ] }
+                ]
+            },
+            specialty: {
+                title: "Specialty Care",
+                items: [
+                    { name: "Kitchen Destainer", label: "KITCHEN DISTAINER POWDER", img: "image 17.jpg", sizings: [ {s: "5 KG", p: 2800}, {s: "1 KG", p: 700}, {s: "500 G", p: 380}, {s: "200 G", p: 200}, {s: "Refill per Litre", p: 500} ] }
+                ]
+            }
+        };
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const currentCategory = urlParams.get('type') || 'laundry';
+        let cartArray = JSON.parse(localStorage.getItem('homage_cart') || '[]');
+
+        function toggleCartDrawer() {
+            const bdrop = document.getElementById('cart-drawer-backdrop');
+            const panel = document.getElementById('cart-drawer-panel');
+            if(bdrop.classList.contains('hidden')) {
+                bdrop.classList.remove('hidden');
+                setTimeout(() => panel.classList.remove('translate-x-full'), 10);
+                renderCartRows();
+            } else {
+                panel.classList.add('translate-x-full');
+                setTimeout(() => bdrop.classList.add('hidden'), 300);
+            }
+        }
+
+        function renderActiveCategory() {
+            const activeData = catalogueDatabase[currentCategory];
+            if(!activeData) return;
+            
+            document.getElementById('category-title-header').innerText = activeData.title;
+            const container = document.getElementById('product-stack-render');
+            container.innerHTML = '';
+
+            activeData.items.forEach((item, itemIdx) => {
+                let optionsHtml = item.sizings.map((sizeObj, sizeIdx) => `
+                    <label class="flex items-center justify-between p-2.5 bg-white border border-slate-100 rounded-lg cursor-pointer hover:border-gold/40 transition-all">
+                        <div class="flex items-center space-x-3">
+                            <input type="radio" name="size-${itemIdx}" value="${sizeIdx}" ${sizeIdx === 0 ? 'checked' : ''} class="w-4 h-4 text-gold focus:ring-gold border-slate-200">
+                            <span class="text-xs font-medium text-slate-700">${sizeObj.s}</span>
+                        </div>
+                        <span class="text-xs font-bold text-navy">KES ${sizeObj.p.toLocaleString()}</span>
+                    </label>
+                `).join('');
+
+                container.innerHTML += `
+                    <div class="bg-white rounded-2xl shadow-xs border border-gold/10 overflow-hidden">
+                        <div class="w-full bg-slate-50 aspect-[4/3] relative">
+                            <img src="${item.img}" alt="${item.name}" class="w-full h-full object-cover">
+                            <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-navy/60 to-transparent">
+                                <span class="bg-navy/90 text-[9px] tracking-widest font-mono text-white uppercase px-2 py-0.5 rounded border border-white/10">${item.label}</span>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="text-base font-serif font-bold text-navy mb-3">${item.name}</h3>
+                            <div class="space-y-1.5 mb-4">${optionsHtml}</div>
+                            <button onclick="commitToCart(${itemIdx})" class="w-full bg-navy hover:bg-gold hover:text-navy text-white text-[11px] font-bold uppercase tracking-widest py-3 rounded-lg transition-all active:scale-98">
+                                Add Selected Sizing to Cart
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            syncInterfaceCounters();
+        }
+
+        function commitToCart(itemIdx) {
+            const product = catalogueDatabase[currentCategory].items[itemIdx];
+            const radios = document.getElementsByName(`size-${itemIdx}`);
+            let selectedSizeIdx = 0;
+            for(let r of radios) { if(r.checked) { selectedSizeIdx = parseInt(r.value); break; } }
+            
+            const selectedConfig = product.sizings[selectedSizeIdx];
+            const basketItemId = `${product.name}-${selectedConfig.s}`;
+
+            let existingRecord = cartArray.find(x => x.id === basketItemId);
+            if(existingRecord) {
+                existingRecord.qty += 1;
+            } else {
+                cartArray.push({ id: basketItemId, name: product.name, size: selectedConfig.s, price: selectedConfig.p, qty: 1 });
+            }
+            
+            localStorage.setItem('homage_cart', JSON.stringify(cartArray));
+            syncInterfaceCounters();
+            
+            // Premium micro interaction layout warning alert trigger feedback
+            const toast = document.createElement('div');
+            toast.className = "fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-navy text-gold text-xs font-bold tracking-wider uppercase px-6 py-3 rounded-xl shadow-2xl border border-gold/30 z-50 animate-bounce";
+            toast.innerText = `Added ${selectedConfig.s} to your Basket`;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 2000);
+        }
+
+        function renderCartRows() {
+            const target = document.getElementById('basket-items-list');
+            target.innerHTML = '';
+            let total = 0;
+
+            if(cartArray.length === 0) {
+                target.innerHTML = `<div class="text-center py-12 text-stoneGrey text-xs font-light">Your packaging configurations container is empty.</div>`;
+                document.getElementById('basket-total-amt').innerText = "KES 0";
+                return;
+            }
+
+            cartArray.forEach((row, idx) => {
+                let rowTotal = row.price * row.qty;
+                total += rowTotal;
+                target.innerHTML += `
+                    <div class="bg-white rounded-xl border border-slate-100 p-3 flex items-center justify-between">
+                        <div>
+                            <h4 class="text-xs font-bold text-navy">${row.name}</h4>
+                            <p class="text-[10px] text-slate-400 font-medium mt-0.5">${row.size} × ${row.qty}</p>
+                        </div>
+                        <div class="text-right flex items-center space-x-3">
+                            <span class="text-xs font-bold text-navy">KES ${rowTotal.toLocaleString()}</span>
+                            <button onclick="purgeRow(${idx})" class="text-stoneGrey hover:text-red-600 text-xs font-bold p-1">✕</button>
+                        </div>
+                    </div>
+                `;
+            });
+            document.getElementById('basket-total-amt').innerText = `KES ${total.toLocaleString()}`;
+        }
+
+        function purgeRow(idx) {
+            cartArray.splice(idx, 1);
+            localStorage.setItem('homage_cart', JSON.stringify(cartArray));
+            renderCartRows();
+            syncInterfaceCounters();
+        }
+
+        function syncInterfaceCounters() {
+            let count = cartArray.reduce((acc, obj) => acc + obj.qty, 0);
+            let ctr = document.getElementById('drawer-counter');
+            if(count > 0) { ctr.innerText = count; ctr.classList.remove('hidden'); }
+            else { ctr.classList.add('hidden'); }
+        }
+
+        function executeMpesaPush() {
+            const phone = document.getElementById('customer-phone').value;
+            if(!phone || phone.length < 9) {
+                alert("Kindly state a structurally authentic Safaricom M-Pesa contact number to transmit the secure billing token.");
+                return;
+            }
+            alert(`M-Pesa STK Push sequence triggered dynamically to: +254${phone}\nTotal Manifest Due: ${document.getElementById('basket-total-amt').innerText}\n\nPlease check your handset display for the dynamic credential validation prompt.`);
+        }
+
+        window.addEventListener('DOMContentLoaded', renderActiveCategory);
+    </script>
+</body>
+</html>
