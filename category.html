@@ -16,6 +16,17 @@
         }
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Hides the default arrows on number inputs for a cleaner UI */
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+    </style>
 </head>
 <body class="bg-champagne text-navy font-sans antialiased min-h-screen pb-24">
 
@@ -25,7 +36,7 @@
                 ← Catalogue Overview
             </a>
             <h1 id="category-title-header" class="text-base font-serif font-bold text-white tracking-wide">Active Range</h1>
-            <button onclick="toggleCartDrawer()" class="relative p-2 bg-gold/10 text-gold rounded-full">
+            <button onclick="toggleCartDrawer()" class="relative p-2 bg-gold/10 text-gold rounded-full transition-colors hover:bg-gold/20">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
                 <div id="drawer-counter" class="absolute -top-1 -right-1 bg-gold text-navy font-bold text-[10px] w-4 h-4 rounded-full flex items-center justify-center hidden">0</div>
             </button>
@@ -129,6 +140,15 @@
             }
         }
 
+        // Helper function for the new +/- quantity buttons
+        function updateInputQty(inputId, delta) {
+            const input = document.getElementById(inputId);
+            let currentVal = parseInt(input.value) || 0;
+            let newVal = currentVal + delta;
+            if (newVal < 0) newVal = 0; // Prevent negative quantities
+            input.value = newVal;
+        }
+
         function renderActiveCategory() {
             const activeData = catalogueDatabase[currentCategory];
             if(!activeData) return;
@@ -138,14 +158,19 @@
             container.innerHTML = '';
 
             activeData.items.forEach((item, itemIdx) => {
+                // Completely replaced radio buttons with individual quantity selectors
                 let optionsHtml = item.sizings.map((sizeObj, sizeIdx) => `
-                    <label class="flex items-center justify-between p-2.5 bg-white border border-slate-100 rounded-lg cursor-pointer hover:border-gold/40 transition-all">
-                        <div class="flex items-center space-x-3">
-                            <input type="radio" name="size-${itemIdx}" value="${sizeIdx}" ${sizeIdx === 0 ? 'checked' : ''} class="w-4 h-4 text-gold focus:ring-gold border-slate-200">
-                            <span class="text-xs font-medium text-slate-700">${sizeObj.s}</span>
+                    <div class="flex items-center justify-between p-2.5 bg-white border border-slate-100 rounded-lg hover:border-gold/40 transition-all">
+                        <div class="flex flex-col">
+                            <span class="text-xs font-bold text-navy">${sizeObj.s}</span>
+                            <span class="text-[10px] text-slate-500">KES ${sizeObj.p.toLocaleString()}</span>
                         </div>
-                        <span class="text-xs font-bold text-navy">KES ${sizeObj.p.toLocaleString()}</span>
-                    </label>
+                        <div class="flex items-center border border-slate-200 rounded-md overflow-hidden bg-white shadow-sm">
+                            <button type="button" onclick="updateInputQty('qty-${itemIdx}-${sizeIdx}', -1)" class="w-8 h-7 bg-slate-50 text-slate-600 hover:bg-slate-200 hover:text-navy flex items-center justify-center text-lg leading-none transition-colors border-r border-slate-200">-</button>
+                            <input type="number" id="qty-${itemIdx}-${sizeIdx}" min="0" value="0" class="w-8 h-7 text-center text-xs font-bold text-navy p-0 border-0 focus:ring-0">
+                            <button type="button" onclick="updateInputQty('qty-${itemIdx}-${sizeIdx}', 1)" class="w-8 h-7 bg-slate-50 text-slate-600 hover:bg-slate-200 hover:text-navy flex items-center justify-center text-lg leading-none transition-colors border-l border-slate-200">+</button>
+                        </div>
+                    </div>
                 `).join('');
 
                 container.innerHTML += `
@@ -158,9 +183,9 @@
                         </div>
                         <div class="p-4">
                             <h3 class="text-base font-serif font-bold text-navy mb-3">${item.name}</h3>
-                            <div class="space-y-1.5 mb-4">${optionsHtml}</div>
-                            <button onclick="commitToCart(${itemIdx})" class="w-full bg-navy hover:bg-gold hover:text-navy text-white text-[11px] font-bold uppercase tracking-widest py-3 rounded-lg transition-all active:scale-98">
-                                Add Selected Sizing to Cart
+                            <div class="space-y-2 mb-4">${optionsHtml}</div>
+                            <button onclick="commitToCart(${itemIdx})" class="w-full bg-navy hover:bg-gold hover:text-navy text-white text-[11px] font-bold uppercase tracking-widest py-3 rounded-lg transition-all active:scale-98 shadow-md">
+                                Add to Cart
                             </button>
                         </div>
                     </div>
@@ -171,18 +196,33 @@
 
         function commitToCart(itemIdx) {
             const product = catalogueDatabase[currentCategory].items[itemIdx];
-            const radios = document.getElementsByName(`size-${itemIdx}`);
-            let selectedSizeIdx = 0;
-            for(let r of radios) { if(r.checked) { selectedSizeIdx = parseInt(r.value); break; } }
-            
-            const selectedConfig = product.sizings[selectedSizeIdx];
-            const basketItemId = `${product.name}-${selectedConfig.s}`;
+            let addedAnything = false;
 
-            let existingRecord = cartArray.find(x => x.id === basketItemId);
-            if(existingRecord) {
-                existingRecord.qty += 1;
-            } else {
-                cartArray.push({ id: basketItemId, name: product.name, size: selectedConfig.s, price: selectedConfig.p, qty: 1 });
+            // Loop through all sizes for this product to check which ones have a quantity > 0
+            product.sizings.forEach((sizeObj, sizeIdx) => {
+                const qtyInput = document.getElementById(`qty-${itemIdx}-${sizeIdx}`);
+                const qtyToAdd = parseInt(qtyInput.value) || 0;
+
+                if (qtyToAdd > 0) {
+                    addedAnything = true;
+                    const basketItemId = `${product.name}-${sizeObj.s}`;
+
+                    let existingRecord = cartArray.find(x => x.id === basketItemId);
+                    if(existingRecord) {
+                        existingRecord.qty += qtyToAdd; // Add chosen amount to existing amount
+                    } else {
+                        // Push distinct size to array
+                        cartArray.push({ id: basketItemId, name: product.name, size: sizeObj.s, price: sizeObj.p, qty: qtyToAdd });
+                    }
+                    
+                    // Reset the input back to zero after adding to cart
+                    qtyInput.value = 0; 
+                }
+            });
+
+            if (!addedAnything) {
+                alert("Please select a quantity for at least one size before adding to cart.");
+                return;
             }
             
             localStorage.setItem('homage_cart', JSON.stringify(cartArray));
@@ -191,7 +231,7 @@
             // Premium micro interaction layout warning alert trigger feedback
             const toast = document.createElement('div');
             toast.className = "fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-navy text-gold text-xs font-bold tracking-wider uppercase px-6 py-3 rounded-xl shadow-2xl border border-gold/30 z-50 animate-bounce";
-            toast.innerText = `Added ${selectedConfig.s} to your Basket`;
+            toast.innerText = `Items added to your Basket`;
             document.body.appendChild(toast);
             setTimeout(() => toast.remove(), 2000);
         }
@@ -211,14 +251,14 @@
                 let rowTotal = row.price * row.qty;
                 total += rowTotal;
                 target.innerHTML += `
-                    <div class="bg-white rounded-xl border border-slate-100 p-3 flex items-center justify-between">
+                    <div class="bg-white rounded-xl border border-slate-100 p-3 flex items-center justify-between shadow-sm">
                         <div>
                             <h4 class="text-xs font-bold text-navy">${row.name}</h4>
-                            <p class="text-[10px] text-slate-400 font-medium mt-0.5">${row.size} × ${row.qty}</p>
+                            <p class="text-[10px] text-slate-500 font-bold mt-0.5">${row.size} <span class="text-slate-400 font-medium">× ${row.qty}</span></p>
                         </div>
                         <div class="text-right flex items-center space-x-3">
                             <span class="text-xs font-bold text-navy">KES ${rowTotal.toLocaleString()}</span>
-                            <button onclick="purgeRow(${idx})" class="text-stoneGrey hover:text-red-600 text-xs font-bold p-1">✕</button>
+                            <button onclick="purgeRow(${idx})" class="text-stoneGrey hover:text-red-600 text-xs font-bold p-1 transition-colors">✕</button>
                         </div>
                     </div>
                 `;
